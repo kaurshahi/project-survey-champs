@@ -1,6 +1,6 @@
 import express from "express";
 const app = express();
-const { PORT = 3000 } = process.env;
+const { PORT = 8080 } = process.env;
 app.get("/*", (req, res) => {
   res.json({ hello: "world" });
 });
