@@ -1,0 +1,22 @@
+{
+  "name": "project_survey_champs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "author": "Blessing",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "nodemon": "^2.0.22"
+  },
+  "scripts": {
+    "dev": "concurrently \"cd client && npx vite\" \"nodemon server.js\"",
+    "build": "vite build",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "global": "^4.4.0"
+  }
+}
