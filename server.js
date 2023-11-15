@@ -1,9 +1,27 @@
-import express from "express";
-const app = express();
-const { PORT = 8080 } = process.env;
-app.get("/*", (req, res) => {
-  res.json({ hello: "world" });
+import config from "./config/config.js";
+import app from "./server/express.js";
+import mongoose from "mongoose";
+mongoose.Promise = global.Promise;
+mongoose
+  .connect(config.mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: "survey-champs",
+  })
+
+  .then(() => {
+    console.log("Connected to the database!");
+  });
+
+mongoose.connection.on("error", () => {
+  throw new Error(`unable to connect to database: ${config.mongoUri}`);
 });
-app.listen(PORT, () => {
-  console.log(`App running in port ${PORT}`);
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to User application." });
+});
+app.listen(config.port, (err) => {
+  if (err) {
+    console.log(err);
+  }
+  console.info("Server started on port %s.", config.port);
 });
