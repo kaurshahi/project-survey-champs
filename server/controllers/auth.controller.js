@@ -1,7 +1,6 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import config from "./../../config/config.js";
-import { decode } from "punycode";
 
 const signin = async (req, res) => {
   try {

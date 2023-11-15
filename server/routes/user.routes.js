@@ -17,6 +17,5 @@ router
 
 router.get("/api/signout", authCtrl.signout);
 
-// Param middleware with requireSignin
 router.param("userId", authCtrl.requireSignin, userCtrl.userByID);
 export default router;

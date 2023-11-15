@@ -6,7 +6,6 @@ const create = async (req, res) => {
   try {
     const user = new User(req.body);
 
-    // Set the virtual field 'hashedPassword'
     user.hashedPassword = req.body.password;
 
     await user.save();
@@ -63,7 +62,6 @@ const userByID = async (req, res, next, id) => {
 
 const read = async (req, res) => {
   try {
-    // Fetch the user directly by ID
     const user = await User.findById(req.params.userId);
 
     if (!user) {
@@ -72,14 +70,11 @@ const read = async (req, res) => {
       });
     }
 
-    // Create a clean copy of the user profile
     const userProfile = { ...user.toObject() };
 
-    // Remove sensitive information
     delete userProfile.hashed_password;
     delete userProfile.salt;
 
-    // Send the sanitized user profile in the response
     return res.json(userProfile);
   } catch (err) {
     console.error("Error fetching user profile:", err);
@@ -91,7 +86,6 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    // Fetch the user profile directly
     const user = await User.findById(req.params.userId);
 
     if (!user) {
@@ -100,11 +94,9 @@ const update = async (req, res) => {
       });
     }
 
-    // Update user properties
     extend(user, req.body);
     user.updated = Date.now();
 
-    // Save the updated user
     await user.save();
 
     const userProfile = { ...user.toObject() };
@@ -123,7 +115,6 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    // Fetch the user directly by ID
     const user = await User.findById(req.params.userId).exec();
 
     if (!user) {
@@ -132,17 +123,13 @@ const remove = async (req, res) => {
       });
     }
 
-    // Remove the user
     const deletedUser = await user.deleteOne();
 
-    // Create a sanitized copy of the deleted user profile
     const deletedUserProfile = { ...deletedUser.toObject() };
 
-    // Remove sensitive information
     delete deletedUserProfile.password;
     delete deletedUserProfile.salt;
 
-    // Send the sanitized deleted user profile in the response
     return res.json(deletedUserProfile);
   } catch (err) {
     console.error("Error removing user:", err);
