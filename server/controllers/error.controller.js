@@ -1,18 +1,29 @@
-// error.controller.js
-// Import any necessary modules or dependencies
-// Example: const SomeModule = require('some-module');
-// Define your controller function
-function handleError(req, res) {
- // Your code to handle the error
-    
-}
-function getErrorMessage(errMsg) {
-console.log(errMsg);
+function handleError(err, req, res) {
+  console.error("Error:", err);
+
+  let statusCode = 500;
+  let errorMessage = "Internal Server Error";
+
+  if (err.name === "ValidationError") {
+    statusCode = 400;
+    errorMessage = extractValidationErrorMessage(err);
+  }
+
+  res.status(statusCode).json({ error: errorMessage });
 }
 
+function getErrorMessage(err) {
+  console.error("Error:", err);
 
-// Export the controller function
-export default  {
-    handleError: handleError,
-    getErrorMessage:getErrorMessage
+  return "Something went wrong. Please try again later.";
+}
+
+function extractValidationErrorMessage(err) {
+  const errors = Object.values(err.errors).map((val) => val.message);
+  return errors.join(". ");
+}
+
+export default {
+  handleError,
+  getErrorMessage,
 };
