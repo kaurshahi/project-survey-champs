@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
-    <>
+<div>
+      <h2>Change Product Description</h2>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <label htmlFor="productId" className="mx-5">Product ID:</label>
+        <input
+          type="text"
+          id="productId"
+
+          className="border-black border rounded-lg py-2 my-3"
+
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div >
+        <label htmlFor="newDescription" className="mx-5">New Description:</label>
+        <input
+          type="text"
+          id="newDescription"
+
+          className="border-black border rounded-lg py-2 my-3"
+
+        />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <button >Update Description</button>
+
+    </div>
+  );
 }
 
 export default App
