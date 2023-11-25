@@ -20,17 +20,17 @@ const signin = async (req, res) => {
 
     res.cookie("t", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Use secure cookie in production
-      sameSite: "strict", // Enforce same-site cookie attribute
-      expiresIn: 3600000, // 1 hour expiration
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      expiresIn: 3600000,
     });
 
     return res.json({
       token,
       user: {
-        _id: user._id,
+        _id: String(user._id),
         name: user.name,
-        email: user.email,
+        email: typeof user.email === "string" ? user.email : String(user.email),
       },
     });
   } catch (err) {

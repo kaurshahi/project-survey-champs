@@ -15,7 +15,5 @@ router
   .put(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.update)
   .delete(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.remove);
 
-router.get("/api/signout", authCtrl.signout);
-
 router.param("userId", authCtrl.requireSignin, userCtrl.userByID);
 export default router;

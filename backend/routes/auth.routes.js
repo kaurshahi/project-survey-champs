@@ -3,9 +3,7 @@ import authCtrl from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
-router.route("/auth/signin").post(authCtrl.signin);
-
-router.use("/api", authCtrl.requireSignin);
+router.route("/api/auth/signin").post(authCtrl.signin);
 
 router.route("/api/auth/signout").get(authCtrl.signout);
 
