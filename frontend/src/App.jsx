@@ -1,36 +1,40 @@
-
-import './App.css'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import LoginPage from "./components/user/LoginPage";
+import RegistrationPage from "./components/user/RegistrationPage";
+import ProfilePage from "./components/user/ProfilePage";
+import NavBar from "./components/NavBar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./components/Layout";
+import AuthProvider from "./context/AuthContext";
 
 function App() {
-
-
   return (
-<div>
-      <h2>Change Product Description</h2>
-      <div>
-        <label htmlFor="productId" className="mx-5">Product ID:</label>
-        <input
-          type="text"
-          id="productId"
-
-          className="border-black border rounded-lg py-2 my-3"
-
-        />
-      </div>
-      <div >
-        <label htmlFor="newDescription" className="mx-5">New Description:</label>
-        <input
-          type="text"
-          id="newDescription"
-
-          className="border-black border rounded-lg py-2 my-3"
-
-        />
-      </div>
-      <button >Update Description</button>
-
-    </div>
+    <Router>
+      <AuthProvider>
+        <NavBar />
+        <Layout>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegistrationPage />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/" element={<Navigate to="/profile" />} />
+          </Routes>
+        </Layout>
+      </AuthProvider>
+    </Router>
   );
 }
 
-export default App
+export default App;
