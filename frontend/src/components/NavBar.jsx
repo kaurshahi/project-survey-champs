@@ -14,11 +14,14 @@ const NavBar = () => {
   return (
     <nav className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <div>
-          <Link to="/" className="text-xl font-semibold">
-            Survey Champs
-          </Link>
-        </div>
+        <Link
+          to="/"
+          className="flex items-center bg-white text-[#07162A] px-4 py-2 rounded-full hover:bg-blue-300"
+        >
+          <img src="/logo.png" alt="Survey Champs Logo" className="h-12 mr-3" />
+          <span className="font-semibold text-lg">Survey Champs</span>
+        </Link>
+
         <div>
           {isAuthenticated ? (
             <>
