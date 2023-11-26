@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext"; // Adjust the import path as needed
+import { AuthContext } from "../context/AuthContext";
 
 const NavBar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
@@ -8,7 +8,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login"); // Redirect to login after logout
+    navigate("/login");
   };
 
   return (
@@ -22,6 +22,12 @@ const NavBar = () => {
         <div>
           {isAuthenticated ? (
             <>
+              <Link
+                to="/dashboard/surveys"
+                className="px-3 py-2 rounded hover:bg-gray-700"
+              >
+                Dashboard
+              </Link>
               <Link
                 to="/profile"
                 className="px-3 py-2 rounded hover:bg-gray-700"

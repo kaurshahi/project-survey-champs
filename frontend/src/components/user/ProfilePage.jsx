@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import api from "../../api";
 import { AuthContext } from "../../context/AuthContext";
 
 const ProfilePage = () => {
@@ -22,20 +22,10 @@ const ProfilePage = () => {
     setSuccess("");
 
     try {
-      const token = localStorage.getItem("token");
-
-      const response = await axios.put(
-        "http://localhost:3000/api/users/" + user.id,
-        {
-          email: user.email,
-          name,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.put("/users/" + user.id, {
+        email: user.email,
+        name,
+      });
       if (response.data.error) {
         setError(response.data.error);
         return;

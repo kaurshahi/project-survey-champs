@@ -12,7 +12,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/profile");
+      navigate("/dashboard");
     }
   }, [isAuthenticated, navigate]);
   const handleSubmit = async (event) => {

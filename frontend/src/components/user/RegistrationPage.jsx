@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api";
 import { AuthContext } from "../../context/AuthContext";
 
 const RegistrationPage = () => {
@@ -17,7 +17,7 @@ const RegistrationPage = () => {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:3000/api/users", {
+      const response = await api.post("/users", {
         name,
         email,
         password,
