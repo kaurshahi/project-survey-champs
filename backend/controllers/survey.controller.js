@@ -7,9 +7,21 @@ const list = async (req, res) => {
   try {
     const current = moment();
     const surveys = await Survey.find({
-      owner: req.profile._id,
-      activeDate: { $lte: current.toDate() },
-      expirationDate: { $gte: current.toDate() },
+      owner: req.auth._id,
+    });
+    res.json(surveys);
+  } catch (err) {
+    return res.status(500).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
+
+const active = async (req, res) => {
+  try {
+    const current = moment().toDate();
+    const surveys = await Survey.find({
+      expirationDate: { $gte: current },
     });
     res.json(surveys);
   } catch (err) {
@@ -22,7 +34,8 @@ const list = async (req, res) => {
 const create = async (req, res) => {
   try {
     const survey = new Survey(req.body);
-    survey.owner = req.profile._id;
+
+    survey.owner = req.auth._id;
     await survey.save();
     res.status(201).json(survey);
   } catch (err) {
@@ -51,9 +64,12 @@ const read = (req, res) => {
 
 const update = async (req, res) => {
   try {
-    let survey = req.survey;
-    survey = extend(survey, req.body);
-    survey.updated = Date.now();
+    const survey = await Survey.findById(req.params.surveyId).exec();
+    if (!survey) {
+      return res.status(404).json({ error: "Survey not found" });
+    }
+    extend(survey, req.body);
+    survey.updatedAt = Date.now();
     await survey.save();
     res.json(survey);
   } catch (err) {
@@ -65,14 +81,18 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    let survey = req.survey;
-    let deletedSurvey = await survey.remove();
+    const survey = await Survey.findById(req.params.surveyId).exec();
+    if (!survey) {
+      return res.status(404).json({ error: "Survey not found" });
+    }
+    const deletedSurvey = await survey.deleteOne();
     res.json(deletedSurvey);
   } catch (err) {
+    console.log(err);
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err),
     });
   }
 };
 
-export default { list, create, surveyByID, read, update, remove };
+export default { list, create, surveyByID, read, update, remove, active };

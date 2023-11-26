@@ -1,11 +1,13 @@
 import Response from "../models/response.model.js";
-import Survey from "../models/survey.model.js"; // Import Survey model for linking responses
+import Survey from "../models/survey.model.js";
 import errorHandler from "./error.controller.js";
 import extend from "lodash/extend.js";
 
 const list = async (req, res) => {
   try {
-    const responses = await Response.find({ survey: req.survey._id });
+    const responses = await Response.find({ survey: req.survey._id })
+      .sort({ updatedAt: -1 })
+      .exec();
     res.json(responses);
   } catch (err) {
     return res.status(500).json({
@@ -19,14 +21,12 @@ const create = async (req, res) => {
     const response = new Response(req.body);
     response.survey = req.survey._id;
 
-    // Assign respondent only if user is logged in
     if (req.profile) {
       response.respondent = req.profile._id;
     }
 
     await response.save();
 
-    // Optionally, link the response to the survey
     await Survey.findByIdAndUpdate(req.survey._id, {
       $push: { responses: response._id },
     });
@@ -83,4 +83,24 @@ const remove = async (req, res) => {
   }
 };
 
-export default { list, create, responseByID, read, update, remove };
+const listByAuthenticatedUser = async (req, res) => {
+  try {
+    const userId = req.auth._id;
+    const responses = await Response.find({ respondent: userId });
+    res.json(responses);
+  } catch (err) {
+    return res.status(400).json({
+      error: "Could not retrieve user responses",
+    });
+  }
+};
+
+export default {
+  list,
+  create,
+  responseByID,
+  read,
+  update,
+  remove,
+  listByAuthenticatedUser,
+};

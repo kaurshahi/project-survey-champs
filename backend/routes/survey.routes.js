@@ -3,7 +3,7 @@ import surveyCtrl from "../controllers/survey.controller.js";
 import authCtrl from "../controllers/auth.controller.js";
 
 const router = express.Router();
-
+router.get("/api/surveys/active", surveyCtrl.active);
 router
   .route("/api/surveys")
   .get(authCtrl.requireSignin, surveyCtrl.list)
