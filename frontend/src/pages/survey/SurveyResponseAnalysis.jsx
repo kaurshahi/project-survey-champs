@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../../api";
 import { useParams } from "react-router-dom";
+import ResponsesList from "../response/ResponseList";
 
 const SurveyResponseAnalysis = () => {
   const { surveyId } = useParams();
@@ -61,6 +62,7 @@ const SurveyResponseAnalysis = () => {
           </div>
         ))}
       </div>
+      <ResponsesList surveyId={surveyId}></ResponsesList>
     </div>
   );
 };

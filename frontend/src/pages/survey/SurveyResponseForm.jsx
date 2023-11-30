@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import api from "../../api";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { AuthContext } from "../../context/AuthContext";
 const SurveyResponseForm = () => {
   const { surveyId } = useParams();
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const SurveyResponseForm = () => {
   const [responses, setResponses] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const fetchSurvey = async () => {
       try {
@@ -27,10 +27,30 @@ const SurveyResponseForm = () => {
   }, [surveyId]);
 
   const initializeResponses = (questions) => {
-    const initialResponses = questions.map((question) => ({
-      questionId: question._id,
-      response: question.type === "multipleChoice" ? [] : "",
-    }));
+    const initialResponses = questions.map((question) => {
+      switch (question.type) {
+        case "shortAnswer":
+          return {
+            questionId: question._id,
+            response: "",
+          };
+        case "agreeDisagree":
+          return {
+            questionId: question._id,
+            response: "",
+          };
+        case "multipleChoice":
+          return {
+            questionId: question._id,
+            response: [],
+          };
+        default:
+          return {
+            questionId: question._id,
+            response: "",
+          };
+      }
+    });
     setResponses(initialResponses);
   };
 
@@ -49,6 +69,7 @@ const SurveyResponseForm = () => {
       })
     );
   };
+
   const toggleMultipleChoiceResponse = (currentResponses, value) => {
     const currentSet = new Set(currentResponses);
     if (currentSet.has(value)) {
@@ -78,7 +99,10 @@ const SurveyResponseForm = () => {
               type="radio"
               name={question._id}
               value={option}
-              checked={responses[question._id] === option}
+              checked={
+                responses.find((resp) => resp.questionId === question._id)
+                  ?.response === option
+              }
               onChange={(e) => handleChange(question._id, e.target.value)}
               className="mr-2"
             />
@@ -123,7 +147,10 @@ const SurveyResponseForm = () => {
       return;
     }
     try {
-      await api.post(`/surveys/${surveyId}/responses`, { responses });
+      await api.post(`/surveys/${surveyId}/responses`, {
+        responses,
+        respondent: user.id,
+      });
       localStorage.setItem(`respondedToSurvey_${surveyId}`, "true");
       navigate("/");
     } catch (err) {

@@ -74,7 +74,14 @@ const LandingPage = () => {
                   return (
                     <li key={survey._id} className="mb-2">
                       {survey.title}
-                      {!responded && (
+                      {responded ? (
+                        <button
+                          disabled
+                          className="ml-2 bg-gray-300 text-white  py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                        >
+                          Responded
+                        </button>
+                      ) : (
                         <button
                           onClick={() => handleSurveyResponse(survey._id)}
                           className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
