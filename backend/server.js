@@ -11,10 +11,6 @@ const startServer = async () => {
     });
     console.log("Connected to the database!");
 
-    app.get("/", (req, res) => {
-      res.json({ message: "Welcome to User application." });
-    });
-
     app.listen(config.port, () => {
       console.info("Server started on port %s.", config.port);
     });
