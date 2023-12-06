@@ -13,7 +13,7 @@ import path from "path";
 const app = express();
 const CURRENT_WORKING_DIR = process.cwd();
 
-app.use(express.static(path.join(CURRENT_WORKING_DIR, "dist")));
+app.use(express.static(path.join(CURRENT_WORKING_DIR, "dist/app")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
