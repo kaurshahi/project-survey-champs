@@ -29,7 +29,7 @@ app.use("/", authRoutes);
 app.use("/", surveyRoutes);
 app.use("/", responseRoutes);
 app.get("*", (req, res) => {
-  res.sendFile(path.join(CURRENT_WORKING_DIR, "dist/app/index.html"));
+  res.sendFile(path.join(CURRENT_WORKING_DIR, "backend/dist/app/index.html"));
 });
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
