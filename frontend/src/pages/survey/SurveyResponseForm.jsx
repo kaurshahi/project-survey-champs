@@ -149,7 +149,7 @@ const SurveyResponseForm = () => {
     try {
       await api.post(`/surveys/${surveyId}/responses`, {
         responses,
-        respondent: user.id || "",
+        respondent: user?.id || "",
       });
       localStorage.setItem(`respondedToSurvey_${surveyId}`, "true");
       navigate("/");
