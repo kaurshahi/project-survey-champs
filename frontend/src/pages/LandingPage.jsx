@@ -7,9 +7,7 @@ const LandingPage = () => {
   useEffect(() => {
     const fetchActiveSurveys = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/surveys/active"
-        );
+        const response = await axios.get("/api/surveys/active");
 
         setActiveSurveys(response.data);
       } catch (error) {
