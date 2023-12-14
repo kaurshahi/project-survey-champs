@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 const LandingPage = () => {
   const [activeSurveys, setActiveSurveys] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchActiveSurveys = async () => {
       try {
-        const response = await axios.get("/api/surveys/active");
+        const response = await api.get("/surveys/active");
 
         setActiveSurveys(response.data);
       } catch (error) {

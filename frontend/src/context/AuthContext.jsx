@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.get("http://localhost:3000/api/auth/signout");
+      await api.get("/auth/signout");
       localStorage.removeItem("token");
       sessionStorage.removeItem("user");
       setUser(null);
