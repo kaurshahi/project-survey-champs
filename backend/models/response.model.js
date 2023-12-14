@@ -21,6 +21,7 @@ const responseSchema = new Schema(
     respondent: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: false,
     },
     responses: [responseOptionSchema],
   },
