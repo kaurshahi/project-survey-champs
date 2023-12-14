@@ -24,7 +24,7 @@ const signin = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      expiresIn: 3600000,
+      maxAge: 3600000,
     });
 
     return res.json({
